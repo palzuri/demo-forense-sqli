@@ -1,0 +1,54 @@
+services:
+  joomla:
+    image: joomla:3.7.0-apache
+    container_name: joomla_app
+    ports:
+      - "2017:80"  # Joomla en el puerto 2017
+    environment:
+      JOOMLA_DB_HOST: db
+      JOOMLA_DB_USER: shared_user
+      JOOMLA_DB_PASSWORD: shared_password
+      JOOMLA_DB_NAME: joomla_db
+    volumes:
+      - ./output/joomla-apache2-logs:/var/log/apache2
+      - joomla_data:/var/www/html  # Volumen persistente para Joomla
+    networks:
+      - demo-eko-net
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: joomla_db
+      MYSQL_USER: shared_user
+      MYSQL_PASSWORD: shared_password
+    networks:
+      - demo-eko-net
+    volumes:
+      - db_data:/var/lib/mysql
+
+  sqlmap:
+    build:
+      context: .
+      dockerfile: Dockerfile.sqlmap
+    container_name: sqlmap_tool
+    networks:
+      - demo-eko-net
+    volumes:
+      - ./analisis:/analisis    
+      - ./output/sqlmap:/sqlmap-output    
+      - ./output/joomla-apache2-logs:/output/joomla-apache2-logs
+    entrypoint: /sqlmap_commands.sh
+    depends_on:
+      - joomla
+
+networks:
+  demo-eko-net:
+    external: false
+
+volumes:
+  db_data:
+  joomla_data:

@@ -1,0 +1,13 @@
+FROM python:3.9-slim
+
+# Instalar curl y sqlmap
+RUN apt-get update && apt-get install -y curl
+RUN pip install sqlmap
+
+# Instalar pandas y openpyxl (si necesitas trabajar con archivos Excel)
+RUN pip install sqlmap pandas openpyxl
+
+# Copiar el script de comandos
+COPY sqlmap_commands.sh /sqlmap_commands.sh
+
+ENTRYPOINT ["bash", "/sqlmap_commands.sh"]
