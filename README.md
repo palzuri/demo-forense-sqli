@@ -16,7 +16,7 @@ En la charla analizaremos estrategias prácticas a aplicar en las diversas fases
 - Remediación.
 - Trabajos futuros utilizando IA como asistente.
 
-[La presentación se puede acceder aquí](./2024_SQLi%20Gestión%20de%20Incidentes%20con%20un%20enfoque%20practico.pdf)
+[La presentación se puede acceder aquí](./2024_SQLi%20Gestión%20de%20Incidentes%20con%20un%20enfoque%20practico-v2.pdf)
 
 
 ## Armado del ambiente de laboratorio:
